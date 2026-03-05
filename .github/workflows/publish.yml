@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -52,9 +53,13 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           environment: production
           # 可选：需要通知时在仓库 Secrets 中配置并取消下方注释
-          # secrets: |
+          secrets: |
+            SECRET_TELEGRAM_API_TOKEN
+            SECRET_TELEGRAM_CHAT_ID
           #   SECRET_SLACK_WEBHOOK_URL
           #   SECRET_DISCORD_WEBHOOK_URL
-          # env:
+        env:
+          SECRET_TELEGRAM_API_TOKEN: ${{secrets.SECRET_TELEGRAM_API_TOKEN}}
+          SECRET_TELEGRAM_CHAT_ID: ${{secrets.SECRET_TELEGRAM_CHAT_ID}}
           #   SECRET_SLACK_WEBHOOK_URL: ${{ secrets.SECRET_SLACK_WEBHOOK_URL }}
           #   SECRET_DISCORD_WEBHOOK_URL: ${{ secrets.SECRET_DISCORD_WEBHOOK_URL }}

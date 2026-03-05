@@ -12,6 +12,7 @@ export const REMOTE_MONITORS_KEY = 'remote-monitors-v1'
 export interface MonitorLastCheck {
   /** Timestamp(ms) */
   time?: number
+  suspect?: boolean
   operational: boolean
   status: number
   statusText: string

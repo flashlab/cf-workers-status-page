@@ -106,13 +106,13 @@ export default function Page() {
           </a>
         </span>
         <a
-          href='https://github.com/yunsii/cf-worker-status-page-pro'
+          href='https://blog.zzbd.org/cf-worker-status-page'
           target='_blank'
           rel='noreferrer'
           className='flex items-center gap-1'
         >
           <span className='i-ic--outline-star size-4 animate-bounce' />
-          Get your status page
+          What's this?
         </a>
       </footer>
     </div>

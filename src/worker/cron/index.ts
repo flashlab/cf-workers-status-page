@@ -54,8 +54,11 @@ export async function handleCronTrigger(env: Env, ctx: ExecutionContext) {
     const monitorOperational
     = checkResponse.status === (monitor.expectStatus || 200)
     const monitorStatusChanged = kvData.monitorHistoryData?.[monitor.id]?.lastCheck.operational !== monitorOperational
+    const monitorNotice = (Number(monitorOperational) ^ Number(!monitorStatusChanged))
+      && (Number(monitorOperational) ^ Number(kvData.monitorHistoryData?.[monitor.id]?.lastCheck?.suspect ?? false))
+    const monitorSuspect = monitorStatusChanged && !monitorOperational
 
-    if (monitorStatusChanged) {
+    if (monitorNotice) {
       console.log(`${monitor.name || monitor.id} status changed to ${monitorOperational ? 'operational' : 'un-operational'}`)
       const notifications = getNotifications(monitor, {
         status: checkResponse.status,
@@ -78,6 +81,7 @@ export async function handleCronTrigger(env: Env, ctx: ExecutionContext) {
       statusText: checkResponse.statusText || '-',
       operational: monitorOperational,
       time: Date.now(),
+      suspect: monitorSuspect,
     }
 
     const targetMonitorHistoryDataChecksItem = kvData.monitorHistoryData?.[monitor.id]?.checks.find((item: MonitorDailyChecksItem) => {
